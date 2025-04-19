@@ -90,7 +90,7 @@ export default function PlatFormLayout({
         </div>
 
         {/* Children Rendered Here */}
-        <div className="w-full h-full px-3 py-3">{children}</div>
+        <div className="w-full h-full px-3 py-3 overflow-y-scroll overflow-x-hidden">{children}</div>
       </div>
     </div>
   );
