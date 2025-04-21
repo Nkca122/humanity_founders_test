@@ -18,10 +18,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeClosed } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 function MagicLinkForm() {
+  const router = useRouter();
+  
   const MagicLinkFormSchema = z.object({
     email: z.string().email({
       message: "Enter a valid email address",
@@ -37,6 +39,8 @@ function MagicLinkForm() {
 
   function onSubmit(values: z.infer<typeof MagicLinkFormSchema>) {
     console.log(values);
+    // Navigate to /setup after form submission
+    router.push("/dashboard");
   }
 
   return (
@@ -80,6 +84,8 @@ function MagicLinkForm() {
 }
 
 function LoginForm() {
+  const router = useRouter();
+  
   const LoginFormSchema = z.object({
     email: z.string().email({
       message: "Enter a valid email address",
@@ -101,6 +107,8 @@ function LoginForm() {
 
   function onSubmit(values: z.infer<typeof LoginFormSchema>) {
     console.log(values);
+    // Navigate to /setup after form submission
+    router.push("/dashboard");
   }
 
   const [visible, setVisible] = useState(false);
@@ -149,7 +157,7 @@ function LoginForm() {
                           placeholder="Enter Password"
                           {...field}
                           className="rounded-[7px] w-full"
-                          type={visible ? "itext" : "password"}
+                          type={visible ? "text" : "password"}
                         />
                       </FormControl>
                       <div className="absolute place-self-end h-full flex w-fit items-end">
@@ -225,6 +233,13 @@ function FormSeperator() {
 }
 
 export default function Login() {
+  const router = useRouter();
+
+  const handleSocialLogin = () => {
+    // Navigate to /setup when clicking on social login button
+    router.push("/setup");
+  };
+
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-4 w-[695px]">
@@ -235,6 +250,7 @@ export default function Login() {
           <Button
             variant={"outline"}
             className="shadow-none text-blue-500 border-blue-500 hover:text-blue-700 w-full rouned-[7px]"
+            onClick={handleSocialLogin}
           >
             Continue with Google/Microsoft
           </Button>
@@ -246,13 +262,15 @@ export default function Login() {
             <div className="flex w-full justify-center items-center gap-2">
               <Badge
                 variant={"secondary"}
-                className="w-11 aspect-square rounded-full relative "
+                className="w-11 aspect-square rounded-full relative cursor-pointer"
+                onClick={handleSocialLogin}
               >
                 <Image src="/logos/google.png" height={28} width={28} alt="" />
               </Badge>
               <Badge
                 variant={"secondary"}
-                className="p-2 w-11 aspect-square rounded-full relative"
+                className="p-2 w-11 aspect-square rounded-full relative cursor-pointer"
+                onClick={handleSocialLogin}
               >
                 <Image
                   src="/logos/facebook.png"
@@ -263,13 +281,15 @@ export default function Login() {
               </Badge>
               <Badge
                 variant={"secondary"}
-                className="p-2 w-11 aspect-square rounded-full relative"
+                className="p-2 w-11 aspect-square rounded-full relative cursor-pointer"
+                onClick={handleSocialLogin}
               >
                 <Image src="/logos/twitter.png" height={28} width={28} alt="" />
               </Badge>
               <Badge
                 variant={"secondary"}
-                className="p-2 w-11 aspect-square rounded-full relative"
+                className="p-2 w-11 aspect-square rounded-full relative cursor-pointer"
+                onClick={handleSocialLogin}
               >
                 <Image
                   src="/logos/linkedin.png"
@@ -283,7 +303,7 @@ export default function Login() {
               <p className="text-muted-foreground text-sm">
                 Don't have an account?{" "}
                 <span className="inline-block">
-                  <a href="#" className="text-blue-700">
+                  <a href="/auth/register" className="text-blue-700">
                     Register Now
                   </a>
                 </span>
